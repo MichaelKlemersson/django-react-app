@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { toggleFilter } from '../redux/actions'
+
 import TodoHeader from './TodoHeader'
 import TodoItem from './TodoItem'
 
@@ -6,26 +9,22 @@ class TodoList extends Component {
   constructor(props) {
     super(props)
     
-    this.state = {
-      items: [
-        {id: 1, title: 'first', status: 'Doing'},
-        {id: 2, title: 'second', status: 'Done'},
-        {id: 3, title: 'Third', status: 'Doing'}
-      ],
-      activeFilter: 'All',
-      currentItems: []
-    }
+    // this.state = {
+    //   items: props.todos || [],
+    //   activeFilter: 'All',
+    //   currentItems: []
+    // }
 
     this.handleFilter = this.applyFilter.bind(this)
     this.addTodo = this.addTodo.bind(this)
   }
 
   // hooks
-  componentWillMount() {
-    this.setState({
-      currentItems: this.state.items.slice()
-    })
-  }
+  // componentWillMount() {
+  //   this.setState({
+  //     currentItems: this.state.items.slice()
+  //   })
+  // }
 
   // methods
   addTodo(todo) {
@@ -43,19 +42,20 @@ class TodoList extends Component {
   }
 
   listItems() {
-    return this.state.currentItems.map((item, index) => {
+    return this.props.todos.map((item, index) => {
       return <TodoItem key={item.id} todo={item}/>
     })
   }
 
   applyFilter(event) {
-    const status = event.target.dataset.filter
-    const items = this.state.items.filter(item => {
-      if (status !== 'All' && (item.status === status ) || status === 'All')
-      return item
-    })
-    this.setState({ currentItems: items, activeFilter: status })
-    this.updateActiveFilter(event.target)
+    this.props.onApplyFilter(event.target.dataset.filter)
+    // const status = event.target.dataset.filter
+    // const items = this.state.items.filter(item => {
+    //   if (status !== 'All' && (item.status === status ) || status === 'All')
+    //   return item
+    // })
+    // this.setState({ currentItems: items, activeFilter: status })
+    // this.updateActiveFilter(event.target)
   }
 
   updateActiveFilter(target) {
@@ -75,7 +75,7 @@ class TodoList extends Component {
             <TodoHeader onAddTodo={this.addTodo}/>
 
             <p className="panel-tabs" id="todo-filters">
-              <a className="filter is-active" data-filter="All" onClick={this.handleFilter}>All</a>
+              <a className="filter" data-filter="All" onClick={this.handleFilter}>All</a>
               <a className="filter" data-filter="Doing" onClick={this.handleFilter}>Doing</a>
               <a className="filter" data-filter="Done" onClick={this.handleFilter}>Done</a>
             </p>
@@ -88,4 +88,23 @@ class TodoList extends Component {
   }
 }
 
-export default TodoList
+const mapStateToProps = state => {
+  return {
+    activeFilter: state.activeFilter,
+    todos: state.todos.filter(item => {
+      if (state.activeFilter !== 'All' && (item.status === state.activeFilter) || state.activeFilter === 'All') {
+        return item
+      }
+    })
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onApplyFilter: status => {
+      dispatch(toggleFilter(status))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList)

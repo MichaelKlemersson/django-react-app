@@ -15,12 +15,17 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.conf import settings
+from rest_framework import routers
 from . import views
+from api.api import TodoViewSet
+
+router = routers.DefaultRouter()
+router.register(r'todos', TodoViewSet, base_name='todo')
 
 urlpatterns = [
-    url(r'^api', include('api.urls')),
+    url(r'^$', views.home, name='home'),
 
-    url(r'^$', views.home, name='home')
+    url(r'^api/', include(router.urls)),
 ]
 
 if settings.DEBUG:

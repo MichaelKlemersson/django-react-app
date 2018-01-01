@@ -1,0 +1,19 @@
+version: '2'
+
+volumes:
+  todo-db-data:
+    driver: local
+
+services:
+  database:
+    container_name: 'django-react-database'
+    image: ambientum/mysql:5.7
+    volumes:
+      - todo-db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=djangoreact
+      - MYSQL_DATABASE=djangoreact
+      - MYSQL_USER=djangoreact
+      - MYSQL_PASSWORD=djangoreact

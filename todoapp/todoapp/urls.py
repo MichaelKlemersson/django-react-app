@@ -18,6 +18,7 @@ from django.conf import settings
 from rest_framework import routers
 from . import views
 from api.api import TodoViewSet
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 router = routers.DefaultRouter()
 router.register(r'todos', TodoViewSet, base_name='todo')
@@ -26,7 +27,7 @@ urlpatterns = [
     url(r'^$', views.home, name='home'),
 
     url(r'^api/', include(router.urls)),
-]
+] + staticfiles_urlpatterns()
 
 # if settings.DEBUG:
 #     import debug_toolbar

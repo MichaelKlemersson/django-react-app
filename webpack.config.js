@@ -1,19 +1,37 @@
+const webpack = require('webpack')
 const HotModuleReplacementPlugin = require('webpack').HotModuleReplacementPlugin
 const NamedModulesPlugin = require('webpack').NamedModulesPlugin
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const path = require('path')
 const isDev = process.env.NODE_ENV !== "production"
 
 let plugins = [
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify(isDev ? 'development' : 'production')
+    }
+  }),
   new ExtractTextPlugin({
     filename: "style.css",
     allChunks: true
+  }),
+  new webpack.LoaderOptionsPlugin({
+    debug: isDev
   })
 ]
 
 if (isDev) {
   plugins.push(new NamedModulesPlugin());
   plugins.push(new HotModuleReplacementPlugin());
+} else {
+  plugins.push(new UglifyJsPlugin({
+    uglifyOptions: {
+      sourceMap: true,
+      ecma: 8,
+      compress: true
+    }
+  }))
 }
 
 let settings = {
@@ -58,6 +76,7 @@ let settings = {
       }
     ]
   },
+  devtool: 'source-map',
   plugins: plugins
 }
 

@@ -73,8 +73,8 @@ REST_FRAMEWORK = {
 APPEND_SLASH = False
 
 if (DEBUG):
-    INSTALLED_APPS.append('debug_toolbar')
-    MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
+    # INSTALLED_APPS.append('debug_toolbar')
+    # MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
     ALLOWED_HOSTS += ['127.0.0.1', '127.0.0.1:8000', 'localhost', 'localhost:8000']
     INTERNAL_IPS = ("127.0.0.1",)
 
@@ -125,11 +125,11 @@ else:
         DATABASES = {
             'default': {
                 'ENGINE': 'django.db.backends.mysql',
-                'NAME': 'iotd',
-                'USER': 'iotd',
-                'PASSWORD': 'iotd',
-                'HOST': 'localhost',
-                'PORT': '5432',
+                'NAME': 'djangoreact',
+                'USER': 'djangoreact',
+                'PASSWORD': 'djangoreact',
+                'HOST': '127.0.0.1',
+                'PORT': '3306',
             }
         }
 
@@ -179,4 +179,4 @@ STATICFILES_FINDERS = (
 )
 
 STATIC_URL = '/static/'
-STATIC_ROOT = 'static'
+# STATIC_ROOT = 'static'

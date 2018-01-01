@@ -13,9 +13,13 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 import sys
 
-TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    'django-react-todo-dev.us-west-2.elasticbeanstalk.com'
+]
 
-ALLOWED_HOSTS = []
+TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,7 +35,7 @@ SECRET_KEY = 'u7l^vy=fn3wol=f+wsk+xtx$_ge5l$fa1+xa$rx2j^g0gasqf1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+INTERNAL_IPS = ("127.0.0.1",)
 
 # Application definition
 
@@ -71,12 +75,6 @@ REST_FRAMEWORK = {
 }
 
 APPEND_SLASH = False
-
-if (DEBUG):
-    # INSTALLED_APPS.append('debug_toolbar')
-    # MIDDLEWARE.append('debug_toolbar.middleware.DebugToolbarMiddleware')
-    ALLOWED_HOSTS += ['127.0.0.1', '127.0.0.1:8000', 'localhost', 'localhost:8000']
-    INTERNAL_IPS = ("127.0.0.1",)
 
 ROOT_URLCONF = 'todoapp.urls'
 

@@ -16,7 +16,7 @@ from socket import gethostname, gethostbyname
 from django.http.request import HttpRequest
 
 ALLOWED_HOSTS = [
-    gethostname(),
+    os.environ.get('SERVER_NAME', 'localhost'),
     gethostbyname(gethostname()),
     gethostbyname(gethostname()) + ':8000'
 ]

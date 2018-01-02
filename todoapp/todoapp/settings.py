@@ -16,7 +16,8 @@ import sys
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'django-react-todo-dev.us-west-2.elasticbeanstalk.com'
+    'django-react-todo-dev.us-west-2.elasticbeanstalk.com',
+    'django-react-todo-prod.us-west-2.elasticbeanstalk.com'
 ]
 
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'

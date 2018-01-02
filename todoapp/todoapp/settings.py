@@ -12,12 +12,13 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os
 import sys
+from socket import gethostname, gethostbyname
+from django.http.request import HttpRequest
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
-    'django-react-todo-dev.us-west-2.elasticbeanstalk.com',
-    'django-react-todo-prod.us-west-2.elasticbeanstalk.com'
+    gethostname(),
+    gethostbyname(gethostname()),
+    gethostbyname(gethostname()) + ':8000'
 ]
 
 TESTING = len(sys.argv) > 1 and sys.argv[1] == 'test'
@@ -34,7 +35,7 @@ ROOT_FOLDER = os.path.dirname(BASE_DIR)
 SECRET_KEY = 'u7l^vy=fn3wol=f+wsk+xtx$_ge5l$fa1+xa$rx2j^g0gasqf1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('APP_DEBUG', True)
 
 INTERNAL_IPS = ("127.0.0.1",)
 
@@ -132,6 +133,11 @@ else:
             }
         }
 
+if DEBUG:
+    ALLOWED_HOSTS.append('127.0.0.1')
+    ALLOWED_HOSTS.append('127.0.0.1:8000')
+    ALLOWED_HOSTS.append('localhost')
+    ALLOWED_HOSTS.append('localhost:8000')
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators

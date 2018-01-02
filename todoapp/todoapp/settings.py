@@ -184,4 +184,4 @@ STATICFILES_FINDERS = (
 )
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(ROOT_FOLDER, "www")
+STATIC_ROOT = os.path.join(ROOT_FOLDER, "www/static")
